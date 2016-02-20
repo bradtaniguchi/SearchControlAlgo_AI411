@@ -7,9 +7,13 @@ b. Breadth-first search
 c. Heuristic search
 
 the following three problems need to be solved
+
 1. Missionary Cannibal Problem
+
 2. The 8-puzzle problem
+
 3. The tile problem
+
 I can use any language I want
 
 ---
