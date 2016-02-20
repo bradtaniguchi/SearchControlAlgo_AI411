@@ -12,7 +12,8 @@ the following three problems need to be solved
 3. The tile problem
 I can use any language I want
 
-=======
+---
+
 I am currently leaning to using python. As its quick, easier and familar. 
 Spend more time problem solving, than wrapping my head around the code. 
 
