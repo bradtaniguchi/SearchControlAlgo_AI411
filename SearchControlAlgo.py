@@ -2,6 +2,8 @@
 # Bradley Taniguchi
 # Search Control Algo for CSC 411 AI class
 
+from DFS import Tree
+
 __author__ = 'Bradley Taniguchi'
 
 

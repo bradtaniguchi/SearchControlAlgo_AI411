@@ -1,0 +1,5 @@
+Bradley Taniguchi
+Notes for this project.
+
+I Don't need to create a general tree, only impliment the ideas
+of the tree into my program. As such trying again.
