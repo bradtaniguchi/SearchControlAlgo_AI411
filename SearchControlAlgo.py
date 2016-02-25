@@ -10,6 +10,7 @@ __author__ = 'Bradley Taniguchi'
 def main():
     print("IN MAIN")
     answer = depth_first_search()
+    print("SolutionFound!")
     print("CannibalsLeft,MissionaryLeft,boat,cannibalRight,missionaryRight")
     print()
     print_answer(answer)
