@@ -6,26 +6,10 @@ __author__ = 'brad'
 counter = 0
 
 
-class Stack:
+class Queue:
     def __init__(self):
-        self.items = []
-
-    def push(self, item):
-        self.items.append(item)
-
-    def __len__(self):
-        return len(self.items)
-
-    def pop(self):
-        return self.items.pop()
-
-    def size(self):
-        return len(self.items)
-
-
-class Queue():
-    def __init__(self):
-        self.A = []; self.start = 0
+        self.A = []
+        self.start = 0
 
     def append(self, item):
         self.A.append(item)
@@ -48,7 +32,7 @@ class Queue():
         return item in self.A[self.start:]
 
 
-class ProblemState():
+class ProblemState:
     def __init__(self, cannLeft, missLeft, boat, cannRight, missRight):
         self.cannLeft = cannLeft
         self.missLeft = missLeft

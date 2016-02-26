@@ -11,7 +11,7 @@ def main():
     print("IN MAIN")
     answer = depth_first_search()
     print("SolutionFound!")
-    print("CannibalsLeft,MissionaryLeft,boat,cannibalRight,missionaryRight")
+    print("MissionaryLeft,CannibalsLeft,boat,cannibalRight,missionaryRight")
     print()
     print_answer(answer)
 
