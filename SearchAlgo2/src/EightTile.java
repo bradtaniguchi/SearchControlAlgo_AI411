@@ -15,8 +15,16 @@ import java.util.Arrays; //compare two arrays, inside of GameStates
 import java.util.ArrayList; //create dynamic lists of objects, IE GameStates
 
 public class EightTile { // 
-    public static void main(String args[]) { //runs the program simulation
+    public void main(String args[]) { //runs the program simulation
         System.out.println("In Main");
+        int[] initialarray = {0,1,2,3,4,5,6,7,8};
+        GameState initialstate = new GameState(null,initialarray); //test array
+        Stack stack_of_states = new Stack(); 
+        while (stack_of_states.size() > 0) { //while stack has stuff in it to check or we are done
+            
+        }
+        //children(initialstate);
+        
     }
     private ArrayList<GameState> children(GameState CurrentState) {
         //GameState initialstate = new GameState(); //create initial state
@@ -25,8 +33,32 @@ public class EightTile { //
         * As such its easier to just check those 4 moves and see where the new
         * states take us.
         */
-        GameState newstate = new GameState(); //create new state up
-        
+        GameState newstate = CurrentState.move_up(); //create new state up
+        if (newstate != null) {
+            newstate.parent = CurrentState; //to get winning path
+            if (newstate.is_win()) return kids; //we win?
+            //auto checks if valid???
+            kids.add(newstate); //add newstate to List
+        }
+        newstate = CurrentState.move_left();
+        if (newstate != null) {
+            newstate.parent = CurrentState; //for path
+            if (newstate.is_win()) return kids;
+            kids.add(newstate);
+        }
+        newstate = CurrentState.move_down();
+        if(newstate != null) {
+            newstate.parent = CurrentState; //for path
+            if(newstate.is_win()) return kids;
+            kids.add(newstate);
+        }
+        newstate = CurrentState.move_right();
+        if(newstate != null) {
+            newstate.parent = CurrentState; //for path
+            if(newstate.is_win()) return kids;
+            kids.add(newstate);
+        }
+        kids.add(newstate); //NEEDED?
         return kids;
     }
     private GameState randomGameState() {
@@ -40,8 +72,13 @@ class GameState { //only useful in this local file
     * [6,7,8]
     */
     public int[] valuesarray = new int[9]; //holds the values for each square
-    public GameState(){} //default constructor
-    public GameState(int valuesarray[]) {
+    public GameState parent = null; 
+    public GameState() {}
+    public GameState(GameState parent){
+        this.parent = parent;
+    } //default constructor
+    public GameState(GameState parent, int valuesarray[]) {
+        this.parent = parent;
         this.valuesarray = valuesarray;
     }
     private int where_is_blank() {
@@ -70,7 +107,7 @@ class GameState { //only useful in this local file
         } //if not valid move up, don't do it
         //NOTE subtracting position is valid
         int[] array = swap(valuesarray,where_is_blank(),(where_is_blank()-3));
-        GameState newstate = new GameState(array);
+        GameState newstate = new GameState(this, array);
         return newstate;
     }
     public GameState move_down() {
@@ -80,7 +117,7 @@ class GameState { //only useful in this local file
             return null;
         }
         int[] array = swap(valuesarray, where_is_blank(), (where_is_blank()+3));
-        GameState newstate = new GameState(array);
+        GameState newstate = new GameState(this, array);
         return newstate;
     }
     public GameState move_left() { 
@@ -90,7 +127,7 @@ class GameState { //only useful in this local file
             return null;
         }
         int[] array = swap(valuesarray, where_is_blank(), (where_is_blank()-1));
-        GameState newstate = new GameState(array);
+        GameState newstate = new GameState(this, array);
         return newstate;
     }
     public GameState move_right() {
@@ -100,7 +137,7 @@ class GameState { //only useful in this local file
             return null;
         }
         int[] array = swap(valuesarray, where_is_blank(), (where_is_blank()+1));
-        GameState newstate = new GameState(array);
+        GameState newstate = new GameState(this, array);
         return newstate;
     }
     public boolean is_valid_move(int direction) { 
