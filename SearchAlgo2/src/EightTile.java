@@ -7,7 +7,8 @@
 
 /**
  *
- * @author brad
+ * @authors Bradley Taniguchi, Jarrett Dixon
+ * 
  */
 import java.util.Stack; //to use built in stack for depth first search
 import java.util.Arrays; //compare two arrays, inside of GameStates
@@ -24,6 +25,8 @@ public class EightTile { //
         * As such its easier to just check those 4 moves and see where the new
         * states take us.
         */
+        GameState newstate = new GameState(); //create new state up
+        
         return kids;
     }
     private GameState randomGameState() {
@@ -49,6 +52,56 @@ class GameState { //only useful in this local file
             }
         }
         return -1; //somethings it WRONG
+    }
+    private int[] swap(int[] array,int a, int y) {// swaps the two given indices
+        if (a == y) return null; //wasted MOVE
+        int bin;
+        bin = array[y];
+        array[y] = array[a];
+        array[a] = bin;
+        
+        return array;
+    }
+    public GameState move_up() {// returns gamestate after move
+        //moves the 0 up
+        if (!is_valid_move(0)) { // 0 is up
+            System.out.println("Not a Valid Move!");
+            return null;
+        } //if not valid move up, don't do it
+        //NOTE subtracting position is valid
+        int[] array = swap(valuesarray,where_is_blank(),(where_is_blank()-3));
+        GameState newstate = new GameState(array);
+        return newstate;
+    }
+    public GameState move_down() {
+        //moves the 0 down
+        if (!is_valid_move(1)) {// 1 is down
+            System.out.println("Not a Valid Move!");
+            return null;
+        }
+        int[] array = swap(valuesarray, where_is_blank(), (where_is_blank()+3));
+        GameState newstate = new GameState(array);
+        return newstate;
+    }
+    public GameState move_left() { 
+        //moves the 0 left
+        if(!is_valid_move(2)) {// 2 is left
+            System.out.println("Not a Valid Move!");
+            return null;
+        }
+        int[] array = swap(valuesarray, where_is_blank(), (where_is_blank()-1));
+        GameState newstate = new GameState(array);
+        return newstate;
+    }
+    public GameState move_right() {
+        //moves 0 to the right
+        if (!is_valid_move(3)) { //3 is the right
+            System.out.println("Not a Valid Move!");
+            return null;
+        }
+        int[] array = swap(valuesarray, where_is_blank(), (where_is_blank()+1));
+        GameState newstate = new GameState(array);
+        return newstate;
     }
     public boolean is_valid_move(int direction) { 
         /* 0 for up
