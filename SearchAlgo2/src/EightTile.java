@@ -19,12 +19,60 @@ public class EightTile { //
         System.out.println("In Main");
         int[] initialarray = {0,1,2,3,4,5,6,7,8};
         GameState initialstate = new GameState(null,initialarray); //test array
-        Stack stack_of_states = new Stack(); 
-        while (stack_of_states.size() > 0) { //while stack has stuff in it to check or we are done
+        GameState mysolution = depthsearch(initialstate);
+        
+    }
+    public GameState bredthsearch() { //REMOVE SOON
+        int[] initialarray = {0,1,2,3,4,5,6,7,8};
+        GameState initialstate = new GameState(null,initialarray); //test array
+        ArrayList<GameState> exploredstates = new ArrayList(); //states already checked
+        Stack stack_of_states = new Stack(); //states to check
+        if (initialstate.is_win()) return initialstate; //that was easy
+        stack_of_states.add(initialstate); //
+        while (stack_of_states.size() > 0) { //while stack has stuff in it to check
+            GameState State = new GameState();
+            State = (GameState) stack_of_states.pop(); //check the state at the top of the stack
+            if(State.is_win()) return State; //found a winner
+            exploredstates.add(State); //add we explored this state, its not a winner
+            ArrayList<GameState> kidsofstates = new ArrayList(); //get the kids of the current State
+            for (GameState kid : kidsofstates) { //for each kid in the list
+                
+            }
             
         }
         //children(initialstate);
+        return null;
+    }
+    public GameState depthsearch(GameState initialstate) {
+    /*    1  procedure DFS-iterative(G,v): //FROM WIKIPEDIA
+2      let S be a stack
+3      S.push(v)
+4      while S is not empty
+5            v = S.pop()
+6            if v is not labeled as discovered:
+7                label v as discovered
+8                for all edges from v to w in G.adjacentEdges(v) do
+9                    S.push(w)
+    */
+        if(initialstate.is_win())
+            return initialstate; 
+        ArrayList<GameState> exploredstates = new ArrayList(); //states already checked
+        Stack stack_of_states = new Stack(); //states to check
+        ArrayList<GameState> childrenstates = new ArrayList(); //temporary list of states
+        while (stack_of_states.size() > 0 ) {
+            GameState state = new GameState();
+            state = (GameState) stack_of_states.pop();
+            if (!exploredstates.contains(state)) { //DEBUG THIS, not found yet
+                if (state.is_win()) return state; //Winning States
+                exploredstates.add(state); // add to descovered
+                childrenstates = children(state); //get the children of the state
+                for (GameState kid : childrenstates) { //for each kid
+                    stack_of_states.push(kid); //push kid onto stack to check
+                }
+            }
         
+        }
+    return null;
     }
     private ArrayList<GameState> children(GameState CurrentState) {
         //GameState initialstate = new GameState(); //create initial state
@@ -36,29 +84,24 @@ public class EightTile { //
         GameState newstate = CurrentState.move_up(); //create new state up
         if (newstate != null) {
             newstate.parent = CurrentState; //to get winning path
-            if (newstate.is_win()) return kids; //we win?
-            //auto checks if valid???
             kids.add(newstate); //add newstate to List
         }
-        newstate = CurrentState.move_left();
+        newstate = CurrentState.move_left(); //do I need new??
         if (newstate != null) {
             newstate.parent = CurrentState; //for path
-            if (newstate.is_win()) return kids;
             kids.add(newstate);
         }
         newstate = CurrentState.move_down();
         if(newstate != null) {
             newstate.parent = CurrentState; //for path
-            if(newstate.is_win()) return kids;
             kids.add(newstate);
         }
         newstate = CurrentState.move_right();
         if(newstate != null) {
             newstate.parent = CurrentState; //for path
-            if(newstate.is_win()) return kids;
             kids.add(newstate);
         }
-        kids.add(newstate); //NEEDED?
+        //kids.add(newstate); //NEEDED?
         return kids;
     }
     private GameState randomGameState() {
