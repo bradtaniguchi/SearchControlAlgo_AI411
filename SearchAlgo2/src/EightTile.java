@@ -15,67 +15,47 @@ import java.util.Arrays; //compare two arrays, inside of GameStates
 import java.util.ArrayList; //create dynamic lists of objects, IE GameStates
 
 public class EightTile { // 
-    public void main(String args[]) { //runs the program simulation
+    public static void main(String[] args) { //runs the program simulation
         System.out.println("In Main");
         int[] initialarray = {0,1,2,3,4,5,6,7,8};
         GameState initialstate = new GameState(null,initialarray); //test array
-        GameState mysolution = depthsearch(initialstate);
-        
-    }
-    public GameState bredthsearch() { //REMOVE SOON
-        int[] initialarray = {0,1,2,3,4,5,6,7,8};
-        GameState initialstate = new GameState(null,initialarray); //test array
-        ArrayList<GameState> exploredstates = new ArrayList(); //states already checked
-        Stack stack_of_states = new Stack(); //states to check
-        if (initialstate.is_win()) return initialstate; //that was easy
-        stack_of_states.add(initialstate); //
-        while (stack_of_states.size() > 0) { //while stack has stuff in it to check
-            GameState State = new GameState();
-            State = (GameState) stack_of_states.pop(); //check the state at the top of the stack
-            if(State.is_win()) return State; //found a winner
-            exploredstates.add(State); //add we explored this state, its not a winner
-            ArrayList<GameState> kidsofstates = new ArrayList(); //get the kids of the current State
-            for (GameState kid : kidsofstates) { //for each kid in the list
-                
-            }
-            
-        }
-        //children(initialstate);
-        return null;
+        EightTile mytile = new EightTile();
+        GameState mysolution = mytile.depthsearch(initialstate);
+        //mytile.printsolution(mysolution); //printout what we just solved
     }
     public GameState depthsearch(GameState initialstate) {
-    /*    1  procedure DFS-iterative(G,v): //FROM WIKIPEDIA
-2      let S be a stack
-3      S.push(v)
-4      while S is not empty
-5            v = S.pop()
-6            if v is not labeled as discovered:
-7                label v as discovered
-8                for all edges from v to w in G.adjacentEdges(v) do
-9                    S.push(w)
-    */
-        if(initialstate.is_win())
+        if(initialstate.is_win()) //not 100% needed
             return initialstate; 
-        ArrayList<GameState> exploredstates = new ArrayList(); //states already checked
+        
+        //ArrayList<GameState> exploredstates = new ArrayList(); //states already checked
+        ArrayList<int[]> explored_state_strings = new ArrayList(); 
         Stack stack_of_states = new Stack(); //states to check
+        
+        stack_of_states.push(initialstate); //push initial state on stack
         ArrayList<GameState> childrenstates = new ArrayList(); //temporary list of states
         while (stack_of_states.size() > 0 ) {
+            System.out.println("Loops");
             GameState state = new GameState();
             state = (GameState) stack_of_states.pop();
-            if (!exploredstates.contains(state)) { //DEBUG THIS, not found yet
-                if (state.is_win()) return state; //Winning States
-                exploredstates.add(state); // add to descovered
+            if (!(explored_state_strings.contains(state.valuesarray))) { //FIGURE THIS OUT
+                System.out.println("IF?");
+                if (state.is_win()) {
+                    System.out.println("WINNER FOUND");
+                    return state;
+                } //Winning States
+                explored_state_strings.add(state.valuesarray); // add to descovered
                 childrenstates = children(state); //get the children of the state
                 for (GameState kid : childrenstates) { //for each kid
+                    System.out.println("????");
                     stack_of_states.push(kid); //push kid onto stack to check
                 }
             }
-        
         }
     return null;
     }
     private ArrayList<GameState> children(GameState CurrentState) {
         //GameState initialstate = new GameState(); //create initial state
+        System.out.println("CHILD");
         ArrayList<GameState> kids = new ArrayList(); //Dynamic ArrayList
         /* We can only move up, down, left, or right. 
         * As such its easier to just check those 4 moves and see where the new
@@ -94,15 +74,26 @@ public class EightTile { //
         newstate = CurrentState.move_down();
         if(newstate != null) {
             newstate.parent = CurrentState; //for path
+            System.out.println("In here");
             kids.add(newstate);
         }
         newstate = CurrentState.move_right();
         if(newstate != null) {
             newstate.parent = CurrentState; //for path
+            System.out.println("in here two");
             kids.add(newstate);
         }
         //kids.add(newstate); //NEEDED?
         return kids;
+    }
+    private void printsolution(GameState answer) {
+        ArrayList<GameState> path = new ArrayList(); //create empty list
+        while (answer.parent != null) {
+            path.add(answer);
+        }
+        for (GameState item : path) {
+            System.out.println("[ " + (String) item.valuesarray.toString() +" ]");
+        }
     }
     private GameState randomGameState() {
         return null;
@@ -238,5 +229,3 @@ class GameState { //only useful in this local file
             return true;
     }
 }
-
-
