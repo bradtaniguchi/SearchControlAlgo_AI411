@@ -37,7 +37,7 @@ public class EightTile { //
             System.out.println("Loops");
             GameState state = new GameState();
             state = (GameState) stack_of_states.pop();
-            if (!(explored_state_strings.contains(state.valuesarray))) { //FIGURE THIS OUT
+            if (!explored_state_strings.contains(state.valuesarray)) { //FIGURE THIS OUT
                 System.out.println("IF?");
                 if (state.is_win()) {
                     System.out.println("WINNER FOUND");
@@ -170,7 +170,9 @@ class GameState { //only useful in this local file
             System.out.println("Not a Valid Move!");
             return null;
         }
-        int[] array = swap(valuesarray, where_is_blank(), (where_is_blank()+1));
+        int[] array = valuesarray;
+        array = swap(array, where_is_blank(), (where_is_blank()+1));
+        //for(int i=0; i < 9; i++) System.out.print(valuesarray[i];
         GameState newstate = new GameState(this, array);
         return newstate;
     }
