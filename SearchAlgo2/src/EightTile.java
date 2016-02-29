@@ -23,32 +23,53 @@ public class EightTile { //
         GameState mysolution = mytile.depthsearch(initialstate);
         //mytile.printsolution(mysolution); //printout what we just solved
     }
+    public boolean itemexists(ArrayList<int[]> checkedvaluesarrays, int[] arraytofind) { //see if item is in arraylist
+        for (int[] item : checkedvaluesarrays) {
+            if(Arrays.equals(item, arraytofind)) return true;
+        }
+        /*for (int[] item : checkedvaluesarrays) {
+            if(item == arraytofind) return true;
+        }*/
+        return false;
+    }
+    public boolean itemexists(ArrayList<String> checkedvaluesarray, String arraytofind) {
+        for (String item : checkedvaluesarray) {
+            if(item.equals(arraytofind)) return true;
+        }
+        return false;
+    }
     public GameState depthsearch(GameState initialstate) {
         if(initialstate.is_win()) //not 100% needed
             return initialstate; 
         
         //ArrayList<GameState> exploredstates = new ArrayList(); //states already checked
-        ArrayList<int[]> explored_state_strings = new ArrayList(); 
+        //ArrayList<int[]> explored_state_strings = new ArrayList<int[]>(); 
+        ArrayList<String> explored_state_strings = new ArrayList<String>();
         Stack stack_of_states = new Stack(); //states to check
         
         stack_of_states.push(initialstate); //push initial state on stack
-        ArrayList<GameState> childrenstates = new ArrayList(); //temporary list of states
+        ArrayList<GameState> childrenstates = new ArrayList(); //temporary list of states //STAR
         while (stack_of_states.size() > 0 ) {
-            System.out.println("Loops");
+            System.out.println("Stack:" + stack_of_states);
+            //System.out.println("ExploredStates:" + explored_state_strings);
             GameState state = new GameState();
             state = (GameState) stack_of_states.pop();
-            if (!explored_state_strings.contains(state.valuesarray)) { //FIGURE THIS OUT
+            //System.out.println("TEST" + state.toString()); 
+            //if (!explored_state_strings.(state.valuesarray)) { //FIGURE THIS OUT
+            if(!itemexists(explored_state_strings, state.toString())) {
                 System.out.println("IF?");
                 if (state.is_win()) {
                     System.out.println("WINNER FOUND");
                     return state;
                 } //Winning States
-                explored_state_strings.add(state.valuesarray); // add to descovered
+                explored_state_strings.add(state.toString()); // add to descovered
                 childrenstates = children(state); //get the children of the state
                 for (GameState kid : childrenstates) { //for each kid
-                    System.out.println("????");
+                    System.out.println("Push Kid ontostack");
                     stack_of_states.push(kid); //push kid onto stack to check
                 }
+            } else {
+                //System.out.println("Item " + state +" Not Found in stack");
             }
         }
     return null;
@@ -74,13 +95,11 @@ public class EightTile { //
         newstate = CurrentState.move_down();
         if(newstate != null) {
             newstate.parent = CurrentState; //for path
-            System.out.println("In here");
             kids.add(newstate);
         }
         newstate = CurrentState.move_right();
         if(newstate != null) {
             newstate.parent = CurrentState; //for path
-            System.out.println("in here two");
             kids.add(newstate);
         }
         //kids.add(newstate); //NEEDED?
@@ -124,6 +143,16 @@ class GameState { //only useful in this local file
         }
         return -1; //somethings it WRONG
     }
+    @Override
+    public String toString() {
+        //System.out.println("TEST:" + Arrays.toString(valuesarray));
+        return Arrays.toString(valuesarray); 
+        /*StringBuilder mystring = new StringBuilder();
+        for (int item : valuesarray) {
+            mystring.append((char) item); //???
+        }
+        return mystring.toString();*/
+    }
     private int[] swap(int[] array,int a, int y) {// swaps the two given indices
         if (a == y) return null; //wasted MOVE
         int bin;
@@ -136,7 +165,7 @@ class GameState { //only useful in this local file
     public GameState move_up() {// returns gamestate after move
         //moves the 0 up
         if (!is_valid_move(0)) { // 0 is up
-            System.out.println("Not a Valid Move!");
+            System.out.println("Up Not a Valid Move!");
             return null;
         } //if not valid move up, don't do it
         //NOTE subtracting position is valid
@@ -147,7 +176,7 @@ class GameState { //only useful in this local file
     public GameState move_down() {
         //moves the 0 down
         if (!is_valid_move(1)) {// 1 is down
-            System.out.println("Not a Valid Move!");
+            System.out.println("Down Not a Valid Move!");
             return null;
         }
         int[] array = swap(valuesarray, where_is_blank(), (where_is_blank()+3));
@@ -157,7 +186,7 @@ class GameState { //only useful in this local file
     public GameState move_left() { 
         //moves the 0 left
         if(!is_valid_move(2)) {// 2 is left
-            System.out.println("Not a Valid Move!");
+            System.out.println("Left Not a Valid Move!");
             return null;
         }
         int[] array = swap(valuesarray, where_is_blank(), (where_is_blank()-1));
@@ -167,7 +196,7 @@ class GameState { //only useful in this local file
     public GameState move_right() {
         //moves 0 to the right
         if (!is_valid_move(3)) { //3 is the right
-            System.out.println("Not a Valid Move!");
+            System.out.println("Right Not a Valid Move!");
             return null;
         }
         int[] array = valuesarray;
@@ -194,7 +223,7 @@ class GameState { //only useful in this local file
                 return !(where_is_blank() == 0 || where_is_blank() == 3 
                         || where_is_blank() == 6);
             case 3: //move right
-                return !(where_is_blank() == 6 || where_is_blank() == 7 
+                return !(where_is_blank() == 2 || where_is_blank() == 5 
                         || where_is_blank() == 8);
             case -1:
                 System.out.println("ERROR, Invalid blank position");
