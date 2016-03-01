@@ -14,8 +14,8 @@ public class EightPuzzleState implements State {
     private int[] curBoard; 
     
     public EightPuzzleState(int[] board) {
+        //System.out.println("TEST");
         curBoard = board;
-        
     }
     private int getHole() {
         int holeIndex =-1;
@@ -37,17 +37,16 @@ public class EightPuzzleState implements State {
         ArrayList<State> successors = new ArrayList<State>();
         int hole = getHole();
         
-        if (hole != 0 && hole != 3 & hole != 6) { //RIGHT
+        if (hole != 0 && hole != 3 & hole != 6) { //RIGHT?
             swapAndStore(hole - 1, hole, successors); //the magic!
         }
-        if (hole != 6 && hole != 7 && hole != 8) { //UP
+        if (hole != 6 && hole != 7 && hole != 8) { //UP?
             swapAndStore(hole + 3, hole, successors);
-            
         }
-        if (hole != 0 && hole != 1 && hole != 2) {
+        if (hole != 0 && hole != 1 && hole != 2) { //DOWN?
             swapAndStore(hole - 3, hole, successors);
         }
-        if (hole != 0 && hole != 1 && hole != 2) {
+        if (hole != 2 && hole != 5 && hole != 8) { //LEFT?
             swapAndStore(hole + 1, hole, successors);
         }
         return successors;

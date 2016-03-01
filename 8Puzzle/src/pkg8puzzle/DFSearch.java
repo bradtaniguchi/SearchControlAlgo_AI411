@@ -8,7 +8,7 @@ import java.util.Stack;
  * @author brad
  */
 public class DFSearch {
-    public static void search(int[] board, boolean d){
+    public static void search(int[] board){
         SearchNode root = new SearchNode(new EightPuzzleState(board));
         Stack<SearchNode> stack = new Stack<SearchNode>();
         
@@ -30,6 +30,7 @@ public class DFSearch {
     public static void performSearch(Stack<SearchNode> s) {
         int searchCount = 1;
         while(!s.isEmpty()) {//while queue is not empty
+            System.out.println("Stack:" + searchCount);
             SearchNode tempNode = (SearchNode) s.pop();// CASTING!
             if(!tempNode.getCurrentState().isGoal()) {
                 //get the list of successors from the tempstate in tempnode
