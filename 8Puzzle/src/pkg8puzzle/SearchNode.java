@@ -9,7 +9,7 @@ public class SearchNode {
     private SearchNode parent;
     
     public SearchNode(SearchNode prev, State s) {
-        currentstate = s;
+        currentState = s;
         parent = prev;
     }
     public State getCurrentState() {

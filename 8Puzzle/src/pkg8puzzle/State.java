@@ -13,7 +13,7 @@ public interface State {
 	ArrayList<State> genSuccessors();
 
 	// determine cost from initial state to THIS state
-	double findCost();
+	//double findCost();
 
 	// print the current state
 	public void printState();
