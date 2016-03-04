@@ -61,8 +61,7 @@ public class DFSearch {
                     System.out.println();
                 }
                 System.out.println("The number of nodes examined: " + searchCount);
-                System.exit(0);
-            
+                System.exit(0);           
             }
         }
         System.out.println("Error! no solution found!!");
